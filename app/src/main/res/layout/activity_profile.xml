@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/profile"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+
+    <LinearLayout
+        android:id="@+id/dataColumns"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:elevation="10dp"
+        android:backgroundTint="#CCC"
+        android:background="@drawable/layout_corners"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            style="@style/ListColumn">
+
+            <TextView
+                style="@style/ColumnText"
+                android:text="@string/dateColumn"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ListColumn">
+
+            <TextView
+                style="@style/ColumnText"
+                android:text="@string/spentColumn"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ListColumn">
+
+            <TextView
+                style="@style/ColumnText"
+                android:text="@string/gallonsColumn"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ListColumn">
+
+            <TextView
+                style="@style/ColumnText"
+                android:text="@string/priceColumn"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ListColumn">
+
+            <TextView
+                style="@style/ColumnText"
+                android:text="@string/stationColumn"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/dataColumns">
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/historyList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spacer">
+
+        <TextView
+            android:id="@+id/emptyProfileElement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:text="NO RESULTS" />
+
+        <ListView
+            android:id="@+id/historyListView"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#B1BCBE"
+            android:dividerHeight="2dp">
+        </ListView>
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mainFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/colorPrimary"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_add_fab" />
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string-array name="station_array">
+       <item>SELECT ONE</item>
+       <item>ARCO</item>
+       <item>MOBIL</item>
+       <item>76</item>
+       <item>CHEVRON</item>
+       <item>SHELL</item>
+       <item>VALERO</item>
+       <item>OTHER</item>
+   </string-array>
+    <string-array name="gas_array">
+        <item>SELECT ONE</item>
+        <item>REGULAR</item>
+        <item>MID</item>
+        <item>PREMIUM</item>
+    </string-array>
+</resources>

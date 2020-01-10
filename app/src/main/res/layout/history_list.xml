@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <LinearLayout
+        android:id="@+id/listRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            style="@style/HistoryListColumn"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/rowID"
+                style="@style/HistoryListText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HistoryListColumn">
+
+            <TextView
+                android:id="@+id/purchaseDate"
+                style="@style/HistoryListText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HistoryListColumn">
+
+            <TextView
+                android:id="@+id/amountSpent"
+                style="@style/HistoryListText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HistoryListColumn">
+
+            <TextView
+                android:id="@+id/gallons"
+                style="@style/HistoryListText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HistoryListColumn">
+
+            <TextView
+                android:id="@+id/price"
+                style="@style/HistoryListText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HistoryListColumn">
+
+            <TextView
+                android:id="@+id/gasStation"
+                style="@style/HistoryListText"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
