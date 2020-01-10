@@ -31,20 +31,20 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements LocationListener
 {
 
-    Button find_fuel;
-    View pulsing1;
-    View pulsing2;
-    View pulsing3;
-    ObjectAnimator objAnim1;
-    ObjectAnimator objAnim2;
-    ObjectAnimator objAnim3;
-    ValueAnimator profileButtonContract;
-    ValueAnimator profileButtonExpand;
+    private Button find_fuel;
+    private View pulsing1;
+    private View pulsing2;
+    private View pulsing3;
+    private ObjectAnimator objAnim1;
+    private ObjectAnimator objAnim2;
+    private ObjectAnimator objAnim3;
+    private ValueAnimator profileButtonContract;
+    private ValueAnimator profileButtonExpand;
     private int start;
-    AlphaAnimation animation1;
-    AlphaAnimation animation2;
-    AlphaAnimation animation3;
-    Button profile;
+    private AlphaAnimation animation1;
+    private AlphaAnimation animation2;
+    private AlphaAnimation animation3;
+    private Button profile;
     private final int PERMISSION_REQUEST_CODE = 1;
     private Location currentLocation;
     private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
