@@ -22,14 +22,11 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +34,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,8 +49,6 @@ public class ProfileActivity extends AppCompatActivity implements GasTrackerRecy
     private ArrayList<GasTracker> tracker = new ArrayList<>();
     private GasTrackerRecyclerAdapter trackerRecyclerAdapter;
     private RecyclerView recyclerView;
-    private GasTrackerAdapter trackerAdapter;
-    private ListView listView;
 
     public static final String CIRCLEX = "X";
     public static final String CIRCLEY = "Y";
@@ -116,6 +112,9 @@ public class ProfileActivity extends AppCompatActivity implements GasTrackerRecy
         });
 
         recyclerView = findViewById(R.id.historyListRecycler);
+        DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(getDrawable(R.drawable.history_list_divider));
+        recyclerView.addItemDecoration(divider);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         trackerRecyclerAdapter = new GasTrackerRecyclerAdapter(this, tracker);
         recyclerView.setLayoutManager(layoutManager);

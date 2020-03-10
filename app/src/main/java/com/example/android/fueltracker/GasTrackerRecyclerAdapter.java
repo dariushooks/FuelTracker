@@ -4,10 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class GasTrackerRecyclerAdapter extends RecyclerView.Adapter<GasTrackerRe
     private Context context;
     private ArrayList<GasTracker> tracker;
     private GasTrackerRecyclerAdapter.ListItemClickListener listener;
-    private ConstraintLayout container;
+    private LinearLayout container;
     private TextView date;
     private TextView spent;
     private TextView gallons;
@@ -42,7 +42,7 @@ public class GasTrackerRecyclerAdapter extends RecyclerView.Adapter<GasTrackerRe
     {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.profile_list, parent, false);
+        View view = inflater.inflate(R.layout.history_list, parent, false);
         GasTrackerRecyclerAdapter.GasTrackerViewHolder viewHolder = new GasTrackerRecyclerAdapter.GasTrackerViewHolder(view);
         return viewHolder;
     }
@@ -59,12 +59,21 @@ public class GasTrackerRecyclerAdapter extends RecyclerView.Adapter<GasTrackerRe
         public GasTrackerViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            container = itemView.findViewById(R.id.listContainer);
+            container = itemView.findViewById(R.id.listRow);
             date = itemView.findViewById(R.id.purchaseDate);
             spent = itemView.findViewById(R.id.amountSpent);
             gallons = itemView.findViewById(R.id.gallons);
             price = itemView.findViewById(R.id.price);
             station = itemView.findViewById(R.id.gasStation);
+
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    int position = getAdapterPosition();
+                    listener.onClick(position, container);
+                }
+            });
         }
 
         public void bind(final int position)
@@ -74,13 +83,6 @@ public class GasTrackerRecyclerAdapter extends RecyclerView.Adapter<GasTrackerRe
             gallons.setText(tracker.get(position).getGallons());
             price.setText(tracker.get(position).getPrice());
             station.setText(tracker.get(position).getStation());
-            container.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    listener.onClick(position, container);
-                }
-            });
         }
     }
 }

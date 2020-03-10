@@ -1,47 +1,26 @@
 package com.example.android.fueltracker;
 
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.InsetDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.fueltracker.data.UserContract;
@@ -66,11 +45,11 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     private View rootView;
     private FavoritesCommunicator favoritesCommunicator;
 
-    private View fave;
-    private RelativeLayout getDirections;
-    private int position;
-    private Animator circularReveal;
-    private Animator circularExit;
+    //private View fave;
+    //private RelativeLayout getDirections;
+    //private int position;
+    //private Animator circularReveal;
+    //private Animator circularExit;
 
 
 
@@ -376,6 +355,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
             deleteFromDatabase(position);
             favoritesCommunicator.favoriteClicked();
         }
+
         else
         {
             stations.get(position).setFavorite(true);

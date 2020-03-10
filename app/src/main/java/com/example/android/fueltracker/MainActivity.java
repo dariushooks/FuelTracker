@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(permissions, PERMISSION_REQUEST_CODE);
         else
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, this);
     }
 
     private void startPulseAnimation()
