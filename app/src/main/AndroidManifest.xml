@@ -27,10 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StationsViewActivity" android:parentActivityName=".MainActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ProfileActivity" android:parentActivityName=".MainActivity" android:label="User Profile" android:screenOrientation="portrait" android:theme="@style/Theme"></activity>
-        <activity android:name=".AddActivity" android:parentActivityName=".ProfileActivity" android:label="User Profile" android:screenOrientation="portrait" android:theme="@style/Theme.Transparent"></activity>
-        <provider android:authorities="com.example.android.fueltracker" android:name=".data.StationProvider" android:exported="false"></provider>
+        <activity android:name=".StationsViewActivity" android:parentActivityName=".MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ProfileActivity" android:parentActivityName=".MainActivity" android:label="User Profile" android:screenOrientation="portrait" android:theme="@style/Theme"/>
+        <activity android:name=".AddActivity" android:parentActivityName=".ProfileActivity" android:label="User Profile" android:screenOrientation="portrait" android:theme="@style/Theme.Transparent"/>
+        <provider android:authorities="com.example.android.fueltracker" android:name=".data.StationProvider" android:exported="false"/>
     </application>
 
 </manifest>

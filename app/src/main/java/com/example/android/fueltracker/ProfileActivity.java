@@ -35,7 +35,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.fueltracker.data.UserContract;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,11 +46,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity
+public class ProfileActivity extends AppCompatActivity implements GasTrackerRecyclerAdapter.ListItemClickListener
 {
-    ArrayList<GasTracker> tracker = new ArrayList<>();
-    GasTrackerAdapter trackerAdapter;
-    ListView listView;
+    private ArrayList<GasTracker> tracker = new ArrayList<>();
+    private GasTrackerRecyclerAdapter trackerRecyclerAdapter;
+    private RecyclerView recyclerView;
+    private GasTrackerAdapter trackerAdapter;
+    private ListView listView;
 
     public static final String CIRCLEX = "X";
     public static final String CIRCLEY = "Y";
@@ -62,30 +67,31 @@ public class ProfileActivity extends AppCompatActivity
     private ValueAnimator colorReveal;
     private ValueAnimator colorExit;
 
-    RelativeLayout profile;
-    RelativeLayout current;
-    RelativeLayout edit;
-    LinearLayout delete;
+    private ConstraintLayout profile;
+    private RelativeLayout current;
+    private RelativeLayout edit;
+    private LinearLayout delete;
 
-    TextView date;
-    TextView spent;
-    TextView price;
-    TextView gallons;
-    TextView station;
+    private TextView date;
+    private TextView spent;
+    private TextView price;
+    private TextView gallons;
+    private TextView station;
+    private TextView emptyList;
 
-    EditText editSpent;
-    EditText editPrice;
-    EditText editStation;
+    private EditText editSpent;
+    private EditText editPrice;
+    private EditText editStation;
 
-    Button editButton;
-    Button deleteButton;
-    Button doneButton;
-    Button cancelButton;
-    Button saveButton;
-    Button yesButton;
-    Button noButton;
+    private Button editButton;
+    private Button deleteButton;
+    private Button doneButton;
+    private Button cancelButton;
+    private Button saveButton;
+    private Button yesButton;
+    private Button noButton;
 
-    FloatingActionButton fabMain;
+    private FloatingActionButton fabMain;
 
     private String rowID;
 
@@ -93,10 +99,11 @@ public class ProfileActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profile_constraint);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         profile = findViewById(R.id.profile);
+        emptyList = findViewById(R.id.noData);
         intent = getIntent();
 
         fabMain = findViewById(R.id.mainFab);
@@ -108,18 +115,11 @@ public class ProfileActivity extends AppCompatActivity
             }
         });
 
-        trackerAdapter = new GasTrackerAdapter(this, new ArrayList<GasTracker>());
-
-        listView = findViewById(R.id.historyListView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                rowID = tracker.get(i).getId();
-                openDialog(i, view);
-            }
-        });
-        listView.setAdapter(trackerAdapter);
+        recyclerView = findViewById(R.id.historyListRecycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        trackerRecyclerAdapter = new GasTrackerRecyclerAdapter(this, tracker);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(trackerRecyclerAdapter);
 
         profile.post(new Runnable()
         {
@@ -209,13 +209,13 @@ public class ProfileActivity extends AppCompatActivity
     {
         super.onResume();
         tracker.clear();
-        trackerAdapter.clear();
         readFromDatabase();
         if(tracker.isEmpty())
-            listView.setEmptyView(findViewById(R.id.emptyProfileElement));
+            emptyList.setVisibility(View.VISIBLE);
         else
         {
-            trackerAdapter.addAll(tracker);
+            emptyList.setVisibility(View.GONE);
+            trackerRecyclerAdapter.notifyDataSetChanged();
         }
     }
 
@@ -264,8 +264,8 @@ public class ProfileActivity extends AppCompatActivity
     private void openDialog(int i, View view)
     {
         final int position = i;
-        final int revealX = (int) (view.getWidth()/2);
-        final int revealY = (int) (view.getHeight()/2);
+        final int revealX = (view.getWidth()/2);
+        final int revealY = (view.getHeight()/2);
         final View alertLayout = getLayoutInflater().inflate(R.layout.profile_alert_dialog,null);
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
@@ -395,7 +395,7 @@ public class ProfileActivity extends AppCompatActivity
                     cancelButton.setVisibility(View.GONE);
                     spent.setText(editSpent.getText().toString().trim());
                     price.setText(editPrice.getText().toString().trim());
-                    gallons.setText(Float.toString(Float.valueOf(df.format(Float.parseFloat(spent.getText().toString().trim())/Float.parseFloat(price.getText().toString().trim())))).trim());
+                    gallons.setText(Float.toString(Float.parseFloat(df.format(Float.parseFloat(spent.getText().toString().trim())/Float.parseFloat(price.getText().toString().trim())))).trim());
                     station.setText(editStation.getText().toString().toUpperCase().trim());
                     writeToDatabase();
                 }
@@ -424,14 +424,13 @@ public class ProfileActivity extends AppCompatActivity
             public void onDismiss(DialogInterface dialogInterface)
             {
                 tracker.clear();
-                trackerAdapter.clear();
                 readFromDatabase();
                 if(tracker.isEmpty())
-                    listView.setEmptyView(findViewById(R.id.emptyProfileElement));
+                    emptyList.setVisibility(View.VISIBLE);
                 else
                 {
-
-                    trackerAdapter.addAll(tracker);
+                    emptyList.setVisibility(View.GONE);
+                    trackerRecyclerAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -528,7 +527,7 @@ public class ProfileActivity extends AppCompatActivity
         String dateString = date.getText().toString().trim();
         String spentString = spent.getText().toString().trim();
         String priceString = price.getText().toString().trim();
-        String gallonsString = Float.toString(Float.valueOf(df.format(Float.parseFloat(spentString)/Float.parseFloat(priceString)))).trim();
+        String gallonsString = Float.toString(Float.parseFloat(df.format(Float.parseFloat(spentString)/Float.parseFloat(priceString)))).trim();
         String stationString = station.getText().toString().trim();
 
         ContentValues values = new ContentValues();
@@ -548,11 +547,17 @@ public class ProfileActivity extends AppCompatActivity
     private void deleteFromDatabase()
     {
         String where = UserContract.GasEntry.COLUMN_ID ;
-        String w[] = {rowID};
+        String[] w = {rowID};
         Uri uri = Uri.withAppendedPath(UserContract.GasEntry.CONTENT_URI,rowID);
 
         getContentResolver().delete(uri, where, w);
     }
 
 
+    @Override
+    public void onClick(int position, View view)
+    {
+        rowID = tracker.get(position).getId();
+        openDialog(position, view);
+    }
 }

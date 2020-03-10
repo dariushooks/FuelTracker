@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/stationListRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:layout_marginTop="5dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:minHeight="100dp"
@@ -45,13 +53,5 @@
         android:textColor="@color/white"
         android:visibility="gone"
         android:text="@string/no_connection"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stationListRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:layout_marginTop="5dp">
-    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

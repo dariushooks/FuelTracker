@@ -63,8 +63,8 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     private RecyclerView recyclerView;
     private StationRecyclerAdapter stationRecyclerAdapter;
     private boolean connection;
-    View rootView;
-    FavoritesCommunicator favoritesCommunicator;
+    private View rootView;
+    private FavoritesCommunicator favoritesCommunicator;
 
     private View fave;
     private RelativeLayout getDirections;
@@ -113,8 +113,9 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
             emptyConnection.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             readFromDatabase();
-            getLoaderManager().initLoader(0,null, this);
+            LoaderManager.getInstance(this).initLoader(0,null, this);
         }
+
         else
         {
             progress.setVisibility(View.GONE);
@@ -339,7 +340,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     private void deleteFromDatabase(int i)
     {
         String where = UserContract.FavoriteEntry.COLUMN_ADDRESS;
-        String w[] = {stations.get(i).getAddress()};
+        String[] w = {stations.get(i).getAddress()};
 
         Uri uri = Uri.withAppendedPath(UserContract.FavoriteEntry.CONTENT_URI,stations.get(i).getAddress());
 

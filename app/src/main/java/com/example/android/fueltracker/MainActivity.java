@@ -144,12 +144,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 }
 
                 @Override
-                public void onAnimationCancel(Animator animator) {
+                public void onAnimationCancel(Animator animator)
+                {
 
                 }
 
                 @Override
-                public void onAnimationRepeat(Animator animator) {
+                public void onAnimationRepeat(Animator animator)
+                {
 
                 }
             });

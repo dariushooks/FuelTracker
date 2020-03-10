@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.mediarouter:mediarouter:1.0.0-alpha5@aar">
     <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/a3e7ae1b1626c7701cc1e2ba78fc8462/mediarouter-1.0.0-alpha5/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/91234746c05ef93d8b129ce0a7a907dd/mediarouter-1.0.0-alpha5/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/a3e7ae1b1626c7701cc1e2ba78fc8462/mediarouter-1.0.0-alpha5/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/a3e7ae1b1626c7701cc1e2ba78fc8462/mediarouter-1.0.0-alpha5/res" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/91234746c05ef93d8b129ce0a7a907dd/mediarouter-1.0.0-alpha5/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-2/files-2.1/91234746c05ef93d8b129ce0a7a907dd/mediarouter-1.0.0-alpha5/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
