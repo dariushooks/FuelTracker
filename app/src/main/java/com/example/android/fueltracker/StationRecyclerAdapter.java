@@ -28,7 +28,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     private TextView premPrice;
     private ImageView stationLogo;
     private View favoriteButton;
-    private LinearLayout stationNameAddress;
+    //private LinearLayout stationNameAddress;
 
     public interface ListItemClickListener
     {
@@ -49,7 +49,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.station_list, parent, false);
+        View view = inflater.inflate(R.layout.station_list_constraint, parent, false);
         StationRecyclerAdapter.StationViewHolder viewHolder = new StationRecyclerAdapter.StationViewHolder(view);
         return viewHolder;
     }
@@ -81,9 +81,9 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             midPrice = itemView.findViewById(R.id.midPrice);
             premPrice = itemView.findViewById(R.id.premiumPrice);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
-            stationNameAddress = itemView.findViewById(R.id.stationNameAddress);
+            //stationNameAddress = itemView.findViewById(R.id.stationNameAddress);
 
-            stationNameAddress.setOnClickListener(new View.OnClickListener() {
+            stationAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view)
                 {
