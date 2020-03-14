@@ -363,7 +363,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
             favoritesCommunicator.favoriteClicked();
         }
 
-        stationRecyclerAdapter.notifyItemChanged(position);
+        //stationRecyclerAdapter.notifyItemChanged(position);
     }
 
     public interface FavoritesCommunicator

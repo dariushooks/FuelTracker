@@ -88,6 +88,7 @@ public class FavoritesFragment extends Fragment implements FavoritesRecyclerAdap
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
+
         favoritesRecyclerAdapter.notifyDataSetChanged();
     }
 

@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -27,8 +28,9 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     private TextView midPrice;
     private TextView premPrice;
     private ImageView stationLogo;
-    private View favoriteButton;
-    //private LinearLayout stationNameAddress;
+    private ImageFilterView favoriteButton;
+    private View favoriteButtonOverlay;
+    private MotionLayout motionLayout;
 
     public interface ListItemClickListener
     {
@@ -50,8 +52,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.station_list_constraint, parent, false);
-        StationRecyclerAdapter.StationViewHolder viewHolder = new StationRecyclerAdapter.StationViewHolder(view);
-        return viewHolder;
+        return new StationRecyclerAdapter.StationViewHolder(view);
     }
 
     @Override
@@ -72,6 +73,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
         public StationViewHolder(@NonNull View itemView)
         {
             super(itemView);
+            motionLayout = itemView.findViewById(R.id.stationContainer);
             stationName = itemView.findViewById(R.id.stationName);
             stationAddress = itemView.findViewById(R.id.stationAddress);
             stationCity = itemView.findViewById(R.id.stationCity);
@@ -81,7 +83,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             midPrice = itemView.findViewById(R.id.midPrice);
             premPrice = itemView.findViewById(R.id.premiumPrice);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
-            //stationNameAddress = itemView.findViewById(R.id.stationNameAddress);
+            favoriteButtonOverlay = itemView.findViewById(R.id.favoriteButtonOverlay);
 
             stationAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -92,9 +94,9 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
                 }
             });
 
-            favoriteButton.setOnClickListener(new View.OnClickListener() {
+            favoriteButtonOverlay.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view)
+                public void onClick(View v)
                 {
                     int clickedPosition = getAdapterPosition();
                     listener.FavoriteClick(clickedPosition);
@@ -113,9 +115,11 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             premPrice.setText(stations.get(position).getPrem());
 
             if(stations.get(position).getFavorite())
-                favoriteButton.setBackgroundResource(R.drawable.ic_is_favorite);
+                favoriteButton.setCrossfade(1);
+                //favoriteButton.setImageResource(R.drawable.ic_is_favorite);
             else
-                favoriteButton.setBackgroundResource(R.drawable.ic_not_favorite);
+                favoriteButton.setCrossfade(0);
+                //favoriteButton.setImageResource(R.drawable.ic_not_favorite);
 
             switch (stations.get(position).getName())
             {
@@ -132,6 +136,5 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
                 default: stationLogo.setImageResource(R.drawable.generic); break;
             }
         }
-
     }
 }
