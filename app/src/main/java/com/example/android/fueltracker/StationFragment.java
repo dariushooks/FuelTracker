@@ -15,7 +15,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StationFragment extends Fragment implements LoaderManager.LoaderCallbacks, StationRecyclerAdapter.ListItemClickListener
+public class StationFragment extends Fragment implements LoaderManager.LoaderCallbacks, StationRecyclerAdapter.ListItemClickListener, SwipeRefreshLayout.OnRefreshListener
 {
 
     public static ArrayList<GasStation> stations = new ArrayList<>();
@@ -44,6 +44,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     private boolean connection;
     private View rootView;
     private FavoritesCommunicator favoritesCommunicator;
+    private SwipeRefreshLayout refreshLayout;
 
     //private View fave;
     //private RelativeLayout getDirections;
@@ -67,6 +68,10 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
         connection = getActivity().getIntent().getBooleanExtra("INTERNET_CONNECTION", false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+
+        refreshLayout = rootView.findViewById(R.id.stationRefresh);
+        refreshLayout.setOnRefreshListener(this);
+
         progress = rootView.findViewById(R.id.progressBar);
         progressText = rootView.findViewById(R.id.progressText);
         emptyData = rootView.findViewById(R.id.emptyElementData);
@@ -99,6 +104,23 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
         {
             progress.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
+            emptyConnection.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onRefresh()
+    {
+        recyclerView.setVisibility(View.GONE);
+        if(connection)
+        {
+            emptyConnection.setVisibility(View.GONE);
+            readFromDatabase();
+            LoaderManager.getInstance(this).restartLoader(0, null, this);
+        }
+
+        else
+        {
             emptyConnection.setVisibility(View.VISIBLE);
         }
     }
@@ -271,6 +293,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
             recyclerView.setVisibility(View.GONE);
             emptyData.setVisibility(View.VISIBLE);
         }
+
         else
         {
             recyclerView.setVisibility(View.VISIBLE);
@@ -283,6 +306,8 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
 
             stationRecyclerAdapter.notifyDataSetChanged();
         }
+
+        refreshLayout.setRefreshing(false);
     }
 
     @Override

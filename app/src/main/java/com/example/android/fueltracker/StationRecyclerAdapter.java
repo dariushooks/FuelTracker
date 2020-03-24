@@ -31,6 +31,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     private ImageFilterView favoriteButton;
     private View favoriteButtonOverlay;
     private MotionLayout motionLayout;
+    private boolean firstBind;
 
     public interface ListItemClickListener
     {
@@ -64,6 +65,8 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     @Override
     public void onBindViewHolder(@NonNull StationRecyclerAdapter.StationViewHolder holder, int position) { holder.bind(position); }
 
+
+
     @Override
     public int getItemCount() { return stations.size(); }
 
@@ -84,6 +87,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             premPrice = itemView.findViewById(R.id.premiumPrice);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
             favoriteButtonOverlay = itemView.findViewById(R.id.favoriteButtonOverlay);
+            firstBind = true;
 
             stationAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,6 +106,33 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
                     listener.FavoriteClick(clickedPosition);
                 }
             });
+
+            motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
+                @Override
+                public void onTransitionStarted(MotionLayout motionLayout, int i, int i1)
+                {
+
+                }
+
+                @Override
+                public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v)
+                {
+
+                }
+
+                @Override
+                public void onTransitionCompleted(MotionLayout motionLayout, int i)
+                {
+                    int clickedPosition = getAdapterPosition();
+                    listener.FavoriteClick(clickedPosition);
+                }
+
+                @Override
+                public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v)
+                {
+
+                }
+            });
         }
 
         public void bind(int position)
@@ -115,11 +146,9 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             premPrice.setText(stations.get(position).getPrem());
 
             if(stations.get(position).getFavorite())
-                favoriteButton.setCrossfade(1);
-                //favoriteButton.setImageResource(R.drawable.ic_is_favorite);
+                favoriteButton.setCrossfade(1f);
             else
-                favoriteButton.setCrossfade(0);
-                //favoriteButton.setImageResource(R.drawable.ic_not_favorite);
+                favoriteButton.setCrossfade(0f);
 
             switch (stations.get(position).getName())
             {

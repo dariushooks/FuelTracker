@@ -73,7 +73,7 @@
         app:layout_constraintBottom_toTopOf="@id/stationAddress"
         app:layout_constraintStart_toEndOf="@id/stationLogo"
         app:layout_constraintEnd_toStartOf="@id/stationDistance"
-        app:layout_constraintTop_toTopOf="@id/stationLogo" />
+        app:layout_constraintTop_toTopOf="@id/stationLogo"/>
 
     <TextView
         android:id="@+id/stationAddress"
@@ -83,7 +83,7 @@
         app:layout_constraintBottom_toTopOf="@id/stationCity"
         app:layout_constraintStart_toEndOf="@id/stationLogo"
         app:layout_constraintEnd_toStartOf="@id/stationDistance"
-        app:layout_constraintTop_toBottomOf="@id/stationName" />
+        app:layout_constraintTop_toBottomOf="@id/stationName"/>
 
     <TextView
         android:id="@+id/stationCity"
@@ -92,7 +92,7 @@
         app:layout_constraintHorizontal_bias=".45"
         app:layout_constraintStart_toEndOf="@id/stationLogo"
         app:layout_constraintEnd_toStartOf="@id/stationDistance"
-        app:layout_constraintTop_toBottomOf="@id/stationAddress" />
+        app:layout_constraintTop_toBottomOf="@id/stationAddress"/>
 
     <TextView
         android:id="@+id/stationDistance"

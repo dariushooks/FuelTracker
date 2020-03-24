@@ -1,57 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/stationRefresh"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black">
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stationListRecycler"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
-        android:layout_marginTop="5dp">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:background="@color/black">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:minHeight="100dp"
-        android:maxHeight="100dp"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminateBehavior="repeat"
-        style="?android:attr/progressBarStyle"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stationListRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:layout_marginTop="5dp">
+        </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/progressText"
-        android:layout_below="@id/progressBar"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/ProgressText"
-        android:textStyle="bold"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:minHeight="100dp"
+            android:maxHeight="100dp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimary"
+            android:indeterminateBehavior="repeat"
+            style="?android:attr/progressBarStyle"/>
 
-    <TextView
-        android:id="@+id/emptyElementData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="30sp"
-        android:visibility="gone"
-        android:text="@string/no_data"/>
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_below="@id/progressBar"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/ProgressText"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/emptyElementConnection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="30sp"
-        android:textColor="@color/white"
-        android:visibility="gone"
-        android:text="@string/no_connection"/>
+        <TextView
+            android:id="@+id/emptyElementData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="30sp"
+            android:visibility="gone"
+            android:text="@string/no_data"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/emptyElementConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:text="@string/no_connection"/>
+
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
