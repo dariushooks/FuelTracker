@@ -159,12 +159,15 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
                 {
                     Log.i(TAG, "LOCATION LAST");
                     currentLocation = location;
+                    Log.i(TAG, "LATITUDE: " + currentLocation.getLatitude());
+                    Log.i(TAG, "LONGITUDE: " + currentLocation.getLongitude());
                     url = "http://api.mygasfeed.com/stations/radius/"
                             + currentLocation.getLatitude()
                             + "/" + currentLocation.getLongitude()
                             + "/5/reg/distance/e5ieinrc85.json?callback=?";
-                    Log.i(TAG, "LATITUDE: " + currentLocation.getLatitude());
-                    Log.i(TAG, "LONGITUDE: " + currentLocation.getLongitude());
+                    GetData getData = (GetData) LoaderManager.getInstance(StationFragment.this).getLoader(0);
+                    getData.setGasUrl(url);
+                    getData.forceLoad();
                 }
 
                 else
@@ -187,12 +190,15 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
                 if(location != null)
                 {
                     currentLocation = location;
+                    Log.i(TAG, "LATITUDE: " + currentLocation.getLatitude());
+                    Log.i(TAG, "LONGITUDE: " + currentLocation.getLongitude());
                     url = "http://api.mygasfeed.com/stations/radius/"
                             + currentLocation.getLatitude()
                             + "/" + currentLocation.getLongitude()
                             + "/5/reg/distance/e5ieinrc85.json?callback=?";
-                    Log.i(TAG, "LATITUDE: " + currentLocation.getLatitude());
-                    Log.i(TAG, "LONGITUDE: " + currentLocation.getLongitude());
+                    GetData getData = (GetData) LoaderManager.getInstance(StationFragment.this).getLoader(0);
+                    getData.setGasUrl(url);
+                    getData.forceLoad();
                 }
             }
 
@@ -205,7 +211,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     public Loader onCreateLoader(int id, @Nullable Bundle args)
     {
         getLocation();
-        return new GetData (Objects.requireNonNull(getActivity()), url);
+        return new GetData(Objects.requireNonNull(getActivity()));
     }
 
     @Override

@@ -32,17 +32,17 @@ public class GetData extends AsyncTaskLoader
     private String city;
     private String distance;
 
-    public GetData(@NonNull Context context, String request_url)
+    public GetData(@NonNull Context context)
     {
         super(context);
-        gasUrl = request_url;
     }
+
+    public void setGasUrl(String url){gasUrl = url;}
 
     @Override
     protected void onStartLoading()
     {
         super.onStartLoading();
-        forceLoad();
     }
 
     @Nullable

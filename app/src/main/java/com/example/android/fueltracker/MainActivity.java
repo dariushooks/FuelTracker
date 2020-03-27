@@ -9,29 +9,20 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.Toast;
 
-import static com.example.android.fueltracker.App.isConnected;
 import static com.example.android.fueltracker.App.networkBroadcastReceiver;
 
 
-public class MainActivity extends AppCompatActivity implements LocationListener
+public class MainActivity extends AppCompatActivity
 {
 
     private Button find_fuel;
@@ -49,12 +40,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private AlphaAnimation animation3;
     private Button profile;
     private final int PERMISSION_REQUEST_CODE = 1;
-    private Location currentLocation;
     private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-    //public static boolean isConnected;
     private boolean expanded = false;
-    private LocationManager locationManager;
-    //private NetworkBroadcastReceiver networkBroadcastReceiver = new NetworkBroadcastReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +53,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         pulsing2 = findViewById(R.id.pulsing2);
         pulsing3 = findViewById(R.id.pulsing3);
         setAnimations();
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        /*IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-        registerReceiver(networkBroadcastReceiver, intentFilter);*/
 
         profile = findViewById(R.id.userProfile);
         start = profile.getLayoutParams().width;
@@ -91,18 +70,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             public void onClick(View view)
             {
                 getLocation();
-                /*String url = "http://api.mygasfeed.com/stations/radius/"
-                        + currentLocation.getLatitude()
-                        + "/" + currentLocation.getLongitude()
-                        + "/5/reg/distance/e5ieinrc85.json?callback=?";*/
                 Intent i = new Intent(MainActivity.this, StationsViewActivity.class);
-                //i.putExtra("REQUEST_URL", url);
-                //i.putExtra("INTERNET_CONNECTION", isConnected);
                 startActivity(i);
-                /*if(isConnected)
-                    startActivity(i);
-                else
-                    Toast.makeText(MainActivity.this, "NO CONNECTION", Toast.LENGTH_LONG).show();*/
             }
         });
     }
@@ -182,8 +151,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-        else
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 0, this);
     }
 
     private void startPulseAnimation()
@@ -397,16 +364,4 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             default:    Toast.makeText(MainActivity.this, "PERMISSIONS NOT GRANTED", Toast.LENGTH_LONG).show(); break;
         }
     }
-
-    @Override
-    public void onLocationChanged(Location location) { currentLocation = location; }
-
-    @Override
-    public void onProviderDisabled(String provider) { Log.d("Latitude","disable"); }
-
-    @Override
-    public void onProviderEnabled(String provider) { Log.d("Latitude","enable");}
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) { Log.d("Latitude","status");}
 }
