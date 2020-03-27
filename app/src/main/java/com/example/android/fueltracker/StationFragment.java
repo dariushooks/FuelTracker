@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,39 +27,51 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.fueltracker.data.UserContract;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import static com.example.android.fueltracker.App.isConnected;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class StationFragment extends Fragment implements LoaderManager.LoaderCallbacks, StationRecyclerAdapter.ListItemClickListener, SwipeRefreshLayout.OnRefreshListener
 {
-
+    private final String TAG = StationFragment.class.getSimpleName();
     public static ArrayList<GasStation> stations = new ArrayList<>();
     private ArrayList<Favorites> favorites = new ArrayList<>();
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
+    private Location currentLocation;
+    private String url;
     private ProgressBar progress;
-    public static TextView progressText;
+    private TextView progressText;
     private TextView emptyConnection;
     private TextView emptyData;
     private RecyclerView recyclerView;
     private StationRecyclerAdapter stationRecyclerAdapter;
-    private boolean connection;
     private View rootView;
     private FavoritesCommunicator favoritesCommunicator;
     private SwipeRefreshLayout refreshLayout;
 
-    //private View fave;
-    //private RelativeLayout getDirections;
-    //private int position;
-    //private Animator circularReveal;
-    //private Animator circularExit;
-
-
-
     public StationFragment()
     {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+        createLocationRequest();
     }
 
     @Override
@@ -65,7 +80,6 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
         super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
         rootView = getLayoutInflater().inflate(R.layout.activity_station, container, false);
-        connection = getActivity().getIntent().getBooleanExtra("INTERNET_CONNECTION", false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -91,11 +105,8 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        if(connection)
+        if(isConnected)
         {
-            progress.setVisibility(View.VISIBLE);
-            emptyConnection.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
             readFromDatabase();
             LoaderManager.getInstance(this).initLoader(0,null, this);
         }
@@ -103,6 +114,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
         else
         {
             progress.setVisibility(View.GONE);
+            progressText.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
             emptyConnection.setVisibility(View.VISIBLE);
         }
@@ -112,7 +124,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     public void onRefresh()
     {
         recyclerView.setVisibility(View.GONE);
-        if(connection)
+        if(isConnected)
         {
             emptyConnection.setVisibility(View.GONE);
             readFromDatabase();
@@ -121,166 +133,79 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
 
         else
         {
+            progress.setVisibility(View.GONE);
+            progressText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
             emptyConnection.setVisibility(View.VISIBLE);
+            refreshLayout.setRefreshing(false);
         }
     }
 
-    /*private void openDialog(int i, View view)
+    private void createLocationRequest()
     {
-        position = i;
-        final int revealX = (int) (view.getWidth()/2);
-        final int revealY = (int) (view.getHeight()/2);
-        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        final View alertLayout = getLayoutInflater().inflate(R.layout.station_alert_dialog,null);
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
 
-        TextView reg = alertLayout.findViewById(R.id.regularPrice);
-        reg.setText(stations.get(position).getReg());
-
-        TextView mid = alertLayout.findViewById(R.id.midPrice);
-        mid.setText(stations.get(position).getMid());
-
-        TextView pre = alertLayout.findViewById(R.id.premiumPrice);
-        pre.setText(stations.get(position).getPrem());
-
-        TextView name = alertLayout.findViewById(R.id.stationName);
-        name.setText(stations.get(position).getName());
-
-        TextView address = alertLayout.findViewById(R.id.stationAddress);
-        address.setText(stations.get(position).getAddress());
-
-        TextView city = alertLayout.findViewById(R.id.stationCity);
-        city.setText(stations.get(position).getCity());
-
-        TextView distance = alertLayout.findViewById(R.id.stationDistance);
-        distance.setText(stations.get(position).getDistance());
-
-        ImageView logo = alertLayout.findViewById(R.id.stationLogo);
-        switch (stations.get(position).getName())
-        {
-            case "Arco": logo.setImageResource(R.drawable.arco); break;
-            case "Mobil": logo.setImageResource(R.drawable.mobil); break;
-            case "Shell": logo.setImageResource(R.drawable.shell); break;
-            case "Chevron": logo.setImageResource(R.drawable.chevron); break;
-            case "76": logo.setImageResource(R.drawable.seventysix); break;
-            case "Valero": logo.setImageResource(R.drawable.valero); break;
-            case "Texaco": logo.setImageResource(R.drawable.texaco); break;
-            case "Exxon": logo.setImageResource(R.drawable.exxon); break;
-            case "7-Eleven": logo.setImageResource(R.drawable.seveneleven); break;
-            case "Sinclair": logo.setImageResource(R.drawable.sinclair); break;
-            default: logo.setImageResource(R.drawable.generic); break;
-        }
-
-        final ImageView exit = alertLayout.findViewById(R.id.exitDialog);
-        exit.setOnClickListener(new View.OnClickListener() {
+    private void getLocation()
+    {
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
-            public void onClick(View view)
+            public void onSuccess(Location location)
             {
-                float finalRadius = (float) (Math.max(alertLayout.getWidth(), alertLayout.getHeight()) * 1.1);
-
-                // create the animator for this view (the start radius is zero)
-                circularExit = ViewAnimationUtils.createCircularReveal(alertLayout, revealX, revealY, finalRadius, 0);
-                circularExit.setDuration(1000);
-                circularExit.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation)
-                    {
-                        alertLayout.setVisibility(View.INVISIBLE);
-                        alertDialog.dismiss();
-                    }
-                });
-                // make the view visible and start the animation
-                circularExit.start();
-            }
-        });
-
-        fave = alertLayout.findViewById(R.id.favoriteButton);
-        if (stations.get(position).getFavorite())
-            fave.setBackground(getActivity().getResources().getDrawable((R.drawable.ic_is_favorite)));
-        else
-            fave.setBackground(getActivity().getResources().getDrawable((R.drawable.ic_not_favorite)));
-        fave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                if (!stations.get(position).getFavorite())
+                if(location != null)
                 {
-                    fave.setBackground(getActivity().getDrawable(R.drawable.ic_is_favorite));
-                    stations.get(position).setFavorite(true);
-                    stationAdapter.notifyDataSetChanged();
-                    writeToDatabase(position);
-                    favoritesCommunicator.favoriteClicked();
+                    Log.i(TAG, "LOCATION LAST");
+                    currentLocation = location;
+                    url = "http://api.mygasfeed.com/stations/radius/"
+                            + currentLocation.getLatitude()
+                            + "/" + currentLocation.getLongitude()
+                            + "/5/reg/distance/e5ieinrc85.json?callback=?";
+                    Log.i(TAG, "LATITUDE: " + currentLocation.getLatitude());
+                    Log.i(TAG, "LONGITUDE: " + currentLocation.getLongitude());
                 }
+
                 else
                 {
-                    fave.setBackground(getActivity().getDrawable(R.drawable.ic_not_favorite));
-                    stations.get(position).setFavorite(false);
-                    stationAdapter.notifyDataSetChanged();
-                    deleteFromDatabase(position);
-                    favoritesCommunicator.favoriteClicked();
+                    Log.i(TAG, "LOCATION UPDATE");
+                    fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
                 }
             }
         });
+    }
 
-        getDirections = alertLayout.findViewById(R.id.stationNameAddress);
-        getDirections.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
+    private LocationCallback locationCallback = new LocationCallback()
+    {
+        @Override
+        public void onLocationResult(LocationResult locationResult)
+        {
+            super.onLocationResult(locationResult);
+            for(Location location : locationResult.getLocations())
             {
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + stations.get(position).getAddress() + ", " + stations.get(position).getCity());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
+                if(location != null)
+                {
+                    currentLocation = location;
+                    url = "http://api.mygasfeed.com/stations/radius/"
+                            + currentLocation.getLatitude()
+                            + "/" + currentLocation.getLongitude()
+                            + "/5/reg/distance/e5ieinrc85.json?callback=?";
+                    Log.i(TAG, "LATITUDE: " + currentLocation.getLatitude());
+                    Log.i(TAG, "LONGITUDE: " + currentLocation.getLongitude());
+                }
             }
-        });
 
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface)
-            {
-                float finalRadius = (float) (Math.max(alertLayout.getWidth(), alertLayout.getHeight()) * 1.1);
-
-                // create the animator for this view (the start radius is zero)
-                circularReveal = ViewAnimationUtils.createCircularReveal(alertLayout, revealX, revealY, 0, finalRadius);
-                circularReveal.setDuration(1000);
-                circularReveal.setInterpolator(new AccelerateInterpolator());
-                circularReveal.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation)
-                    {
-                        ViewCompat.animate(exit)
-                                .rotation(135.0f)
-                                .withLayer()
-                                .setDuration(300)
-                                .setInterpolator(new OvershootInterpolator(10.0f))
-                                .start();
-                    }
-                });
-
-                // make the view visible and start the animation
-                alertLayout.setVisibility(View.VISIBLE);
-                circularReveal.start();
-            }
-        });
-
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setView(alertLayout);
-
-        new Dialog(getActivity().getApplicationContext());
-        alertDialog.show();
-        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
-        InsetDrawable inset = new InsetDrawable(back, 20);
-        alertDialog.getWindow().setBackgroundDrawable(inset);
-        alertDialog.getWindow().setElevation(20.0f);
-        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,700);
-    }*/
-
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
+    };
 
     @NonNull
     @Override
     public Loader onCreateLoader(int id, @Nullable Bundle args)
     {
-        String request_url = getActivity().getIntent().getStringExtra("REQUEST_URL");
-        return new GetData (getActivity(), request_url);
+        getLocation();
+        return new GetData (Objects.requireNonNull(getActivity()), url);
     }
 
     @Override
@@ -291,6 +216,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
         if (stations.isEmpty())
         {
             recyclerView.setVisibility(View.GONE);
+            emptyConnection.setVisibility(View.GONE);
             emptyData.setVisibility(View.VISIBLE);
         }
 
@@ -298,6 +224,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
         {
             recyclerView.setVisibility(View.VISIBLE);
             emptyData.setVisibility(View.GONE);
+            emptyConnection.setVisibility(View.GONE);
             if(!favorites.isEmpty())
                 for (int i = 0; i < stations.size(); i++)
                     for (int j = 0; j < favorites.size(); j++)
@@ -311,7 +238,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader loader) { }
+    public void onLoaderReset(@NonNull Loader loader) {}
 
     private void readFromDatabase()
     {

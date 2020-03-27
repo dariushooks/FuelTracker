@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/ProgressText"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:text="RUNNING..."/>
 
         <TextView
             android:id="@+id/emptyElementData"
@@ -46,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textSize="30sp"
+            android:textColor="@color/white"
             android:visibility="gone"
             android:text="@string/no_data"/>
 

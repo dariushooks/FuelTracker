@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import static com.example.android.fueltracker.App.isConnected;
+
 public class NetworkBroadcastReceiver extends BroadcastReceiver
 {
     public NetworkBroadcastReceiver(){}
@@ -15,6 +17,6 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver
     {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        MainActivity.isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

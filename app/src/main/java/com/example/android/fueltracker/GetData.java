@@ -42,7 +42,6 @@ public class GetData extends AsyncTaskLoader
     protected void onStartLoading()
     {
         super.onStartLoading();
-        StationFragment.progressText.setText("RUNNING...");
         forceLoad();
     }
 
@@ -52,7 +51,7 @@ public class GetData extends AsyncTaskLoader
     {
         try
         {
-            Thread.sleep(0);
+            Thread.sleep(2000);
             URL url = new URL(gasUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

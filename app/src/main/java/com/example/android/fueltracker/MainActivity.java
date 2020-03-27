@@ -27,6 +27,9 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.Toast;
 
+import static com.example.android.fueltracker.App.isConnected;
+import static com.example.android.fueltracker.App.networkBroadcastReceiver;
+
 
 public class MainActivity extends AppCompatActivity implements LocationListener
 {
@@ -48,10 +51,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private final int PERMISSION_REQUEST_CODE = 1;
     private Location currentLocation;
     private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-    public static boolean isConnected;
+    //public static boolean isConnected;
     private boolean expanded = false;
     private LocationManager locationManager;
-    private NetworkBroadcastReceiver networkBroadcastReceiver = new NetworkBroadcastReceiver();
+    //private NetworkBroadcastReceiver networkBroadcastReceiver = new NetworkBroadcastReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        IntentFilter intentFilter = new IntentFilter();
+        /*IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-        registerReceiver(networkBroadcastReceiver, intentFilter);
+        registerReceiver(networkBroadcastReceiver, intentFilter);*/
 
         profile = findViewById(R.id.userProfile);
         start = profile.getLayoutParams().width;
@@ -88,18 +91,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             public void onClick(View view)
             {
                 getLocation();
-                String url = "http://api.mygasfeed.com/stations/radius/"
+                /*String url = "http://api.mygasfeed.com/stations/radius/"
                         + currentLocation.getLatitude()
                         + "/" + currentLocation.getLongitude()
-                        + "/5/reg/distance/e5ieinrc85.json?callback=?";
+                        + "/5/reg/distance/e5ieinrc85.json?callback=?";*/
                 Intent i = new Intent(MainActivity.this, StationsViewActivity.class);
-                i.putExtra("REQUEST_URL", url);
-                i.putExtra("INTERNET_CONNECTION", isConnected);
-                //startActivity(i);
-                if(isConnected)
+                //i.putExtra("REQUEST_URL", url);
+                //i.putExtra("INTERNET_CONNECTION", isConnected);
+                startActivity(i);
+                /*if(isConnected)
                     startActivity(i);
                 else
-                    Toast.makeText(MainActivity.this, "NO CONNECTION", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "NO CONNECTION", Toast.LENGTH_LONG).show();*/
             }
         });
     }
@@ -393,7 +396,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
             default:    Toast.makeText(MainActivity.this, "PERMISSIONS NOT GRANTED", Toast.LENGTH_LONG).show(); break;
         }
-
     }
 
     @Override
