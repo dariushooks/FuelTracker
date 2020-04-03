@@ -2,7 +2,10 @@ package com.example.android.fueltracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -24,11 +27,11 @@ import static com.example.android.fueltracker.App.networkBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity
 {
-
     private Button find_fuel;
     private View pulsing1;
     private View pulsing2;
     private View pulsing3;
+    private MotionLayout motionLayout;
     private ObjectAnimator objAnim1;
     private ObjectAnimator objAnim2;
     private ObjectAnimator objAnim3;
@@ -41,13 +44,21 @@ public class MainActivity extends AppCompatActivity
     private Button profile;
     private final int PERMISSION_REQUEST_CODE = 1;
     private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-    private boolean expanded = false;
+    private boolean expanded = true;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_container);
 
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        MainFragment fragment = new MainFragment();
+        transaction.add(R.id.fragmentContainer, fragment, "Main").commit();
+
+        /*motionLayout = findViewById(R.id.mainLayout);
         find_fuel = findViewById(R.id.findfuel);
         pulsing1 = findViewById(R.id.pulsing1);
         pulsing2 = findViewById(R.id.pulsing2);
@@ -61,7 +72,6 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 profileButtonAnimation(view);
-
             }
         });
 
@@ -74,6 +84,33 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
+            @Override
+            public void onTransitionStarted(MotionLayout motionLayout, int i, int i1)
+            {
+                profile.setText("");
+            }
+
+            @Override
+            public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v)
+            {
+
+            }
+
+            @Override
+            public void onTransitionCompleted(MotionLayout motionLayout, int i)
+            {
+                if(motionLayout.getCurrentState() == motionLayout.getEndState())
+                    profileButtonAnimation(profile);
+            }
+
+            @Override
+            public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v)
+            {
+
+            }
+        });*/
     }
 
     @Override
@@ -83,60 +120,26 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
     protected void onResume()
     {
         super.onResume();
         getLocation();
 
-        if(!expanded)
+        /*if(!expanded)
         {
-            profileButtonExpand = ValueAnimator.ofInt(profile.getWidth(), start);
-            profileButtonExpand.setDuration(500);
-            profileButtonExpand.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator)
-                {
-                    profile.getLayoutParams().width = (int) valueAnimator.getAnimatedValue();
-                    profile.requestLayout();
-                }
-            });
-            profileButtonExpand.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator)
-                {
-                    expanded = true;
-                    profile.setText("PROFILE");
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator)
-                {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator)
-                {
-
-                }
-            });
-            profileButtonExpand.start();
+            expanded = true;
+            motionLayout.transitionToStart();
         }
-        startPulseAnimation();
+
+        startPulseAnimation();*/
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        stopPulseAnimation();
+        //stopPulseAnimation();
     }
 
     @Override
@@ -300,55 +303,28 @@ public class MainActivity extends AppCompatActivity
 
     public void profileButtonAnimation(final View view)
     {
-        profileButtonContract = ValueAnimator.ofInt(profile.getWidth(), 175);
-        profileButtonContract.setDuration(500);
-        profileButtonContract.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator)
-            {
-                profile.getLayoutParams().width = (int) valueAnimator.getAnimatedValue();
-                profile.requestLayout();
-            }
-        });
-        profileButtonContract.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator)
-            {
-                profile.setText("");
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            expanded = false;
+            int revealX = (int) (view.getX() + (view.getWidth()/2));
+            int revealY = (int) (view.getY() + (view.getHeight()/2));
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            ProfileFragment fragment = new ProfileFragment(revealX, revealY);
+            transaction.replace(R.id.fragmentContainer, fragment, null).addToBackStack("").commit();
 
-            @Override
-            public void onAnimationEnd(Animator animator)
-            {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                {
-                    expanded = false;
-                    int revealX = (int) (view.getX() + (view.getWidth()/2));
-                    int revealY = (int) (view.getY() + (view.getHeight()/2));
-                    Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-                    i.putExtra(ProfileActivity.CIRCLEX, revealX);
-                    i.putExtra(ProfileActivity.CIRCLEY,revealY);
-                    startActivity(i, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, view, "transition").toBundle());
-                    overridePendingTransition(0, 0);
-                }
-                else
-                {
-                    Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-                    startActivity(i);
-                }
-            }
+            /*Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+            i.putExtra(ProfileActivity.CIRCLEX, revealX);
+            i.putExtra(ProfileActivity.CIRCLEY,revealY);
+            startActivity(i, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, view, "transition").toBundle());
+            overridePendingTransition(0, 0);*/
+        }
 
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });
-        profileButtonContract.start();
+        else
+        {
+            Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override

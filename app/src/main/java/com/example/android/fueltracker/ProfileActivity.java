@@ -476,9 +476,6 @@ public class ProfileActivity extends AppCompatActivity implements GasTrackerRecy
             startActivity(i, ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition").toBundle());
             overridePendingTransition(0, 0);
         }
-        else
-        {
-        }
     }
 
     private void readFromDatabase()
@@ -537,7 +534,7 @@ public class ProfileActivity extends AppCompatActivity implements GasTrackerRecy
         values.put(UserContract.GasEntry.COLUMN_STATION, stationString.toUpperCase());
 
          String where = UserContract.GasEntry.COLUMN_ID;
-         String w[] = {rowID};
+         String[] w = {rowID};
          Uri uri = Uri.withAppendedPath(UserContract.GasEntry.CONTENT_URI,rowID);
 
          getContentResolver().update(uri, values, where, w);

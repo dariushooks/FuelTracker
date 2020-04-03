@@ -197,8 +197,11 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
                             + "/" + currentLocation.getLongitude()
                             + "/5/reg/distance/e5ieinrc85.json?callback=?";
                     GetData getData = (GetData) LoaderManager.getInstance(StationFragment.this).getLoader(0);
-                    getData.setGasUrl(url);
-                    getData.forceLoad();
+                    if(getData != null)
+                    {
+                        getData.setGasUrl(url);
+                        getData.forceLoad();
+                    }
                 }
             }
 
