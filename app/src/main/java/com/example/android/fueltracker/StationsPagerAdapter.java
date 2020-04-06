@@ -1,17 +1,16 @@
 package com.example.android.fueltracker;
 
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class StationsPagerAdapter extends FragmentPagerAdapter
+public class StationsPagerAdapter extends FragmentStatePagerAdapter
 {
-    public StationsPagerAdapter(FragmentManager fm)
+    StationFragment.FavoritesCommunicator favoritesCommunicator;
+    public StationsPagerAdapter(FragmentManager fm, StationFragment.FavoritesCommunicator favoritesCommunicator)
     {
         super(fm);
+        this.favoritesCommunicator = favoritesCommunicator;
     }
 
     @Override
@@ -19,7 +18,7 @@ public class StationsPagerAdapter extends FragmentPagerAdapter
     {
         switch (position)
         {
-            case 0: return new StationFragment();
+            case 0: return new StationFragment(favoritesCommunicator);
             case 1: return new FavoritesFragment();
             default: return null;
         }
@@ -35,7 +34,6 @@ public class StationsPagerAdapter extends FragmentPagerAdapter
             default: return null;
         }
     }
-
 
     @Override
     public int getCount()

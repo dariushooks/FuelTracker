@@ -61,9 +61,9 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     private FavoritesCommunicator favoritesCommunicator;
     private SwipeRefreshLayout refreshLayout;
 
-    public StationFragment()
+    public StationFragment(FavoritesCommunicator favoritesCommunicator)
     {
-        // Required empty public constructor
+        this.favoritesCommunicator = favoritesCommunicator;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     {
         super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
-        rootView = getLayoutInflater().inflate(R.layout.activity_station, container, false);
+        rootView = getLayoutInflater().inflate(R.layout.fragment_station, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -330,20 +330,6 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     public interface FavoritesCommunicator
     {
         void favoriteClicked();
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context)
-    {
-        super.onAttach(context);
-        try
-        {
-            favoritesCommunicator = (FavoritesCommunicator) context;
-        }
-        catch (ClassCastException e)
-        {
-            throw new ClassCastException(context.toString().trim() + " must implement favoriteClicked");
-        }
     }
 }
 

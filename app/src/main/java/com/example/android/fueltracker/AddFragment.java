@@ -1,27 +1,26 @@
 package com.example.android.fueltracker;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.ContentValues;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.android.fueltracker.data.UserContract;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,13 +29,11 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class AddFragment extends Fragment
 {
-
-    public static final String CIRCLEX = "X";
-    public static final String CIRCLEY = "Y";
-    View rootLayout;
+    private View rootLayout;
     private int revealX;
     private int revealY;
     private EditText spent;
@@ -54,10 +51,13 @@ public class AddFragment extends Fragment
     private int color2;
     DateFormat dateFormat;
     Date date;
-    private Intent intent;
     View rootView;
 
-    public AddFragment(){}
+    public AddFragment(int revealX, int revealY)
+    {
+        this.revealX = revealX;
+        this.revealY = revealY;
+    }
 
     @Nullable
     @Override
@@ -65,8 +65,7 @@ public class AddFragment extends Fragment
     {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
-        rootView = inflater.inflate(R.layout.activity_add, container, false);
-        intent = getActivity().getIntent();
+        rootView = inflater.inflate(R.layout.fragment_add, container, false);
         rootLayout = rootView.findViewById(R.id.root);
 
         add = rootView.findViewById(R.id.saveAdd);
@@ -77,7 +76,8 @@ public class AddFragment extends Fragment
                 if(errorMessage(spent, price, station))
                 {
                     writeToDatabase();
-                    circularExit.start();
+                    ExitAnimation(rootView);
+                    //circularExit.start();
                     //colorExit.start();
                 }
             }
@@ -88,7 +88,8 @@ public class AddFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                circularExit.start();
+                ExitAnimation(rootView);
+                //circularExit.start();
                 fab.setVisibility(View.VISIBLE);
                 //colorExit.start();
             }
@@ -96,7 +97,7 @@ public class AddFragment extends Fragment
 
         fab = rootView.findViewById(R.id.addEntryFab);
 
-        rootLayout.post(new Runnable() {
+        /*rootLayout.post(new Runnable() {
             @Override
             public void run()
             {
@@ -177,16 +178,130 @@ public class AddFragment extends Fragment
                     rootLayout.setVisibility(View.VISIBLE);
                 }
             }
+        });*/
+
+        rootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom)
+            {
+                finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
+                color1 = getResources().getColor(R.color.colorPrimary);
+                color2 = getResources().getColor(R.color.white);
+                RevealAnimation(v);
+                v.removeOnLayoutChangeListener(this);
+            }
         });
+
+        OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true)
+        {
+            @Override
+            public void handleOnBackPressed()
+            {
+                ExitAnimation(rootView);
+            }
+        };
+
+        getActivity().getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
 
         spent = rootView.findViewById(R.id.spentInput);
         price = rootView.findViewById(R.id.priceInput);
         station = rootView.findViewById(R.id.stationInput);
 
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         date = new Date();
 
         return rootView;
+    }
+
+    private void RevealAnimation(final View view)
+    {
+        colorReveal = ValueAnimator.ofObject(new ArgbEvaluator(), color2, color1);
+        colorReveal.setDuration(1000);
+        colorReveal.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator)
+            {
+                view.setBackgroundColor((int) animator.getAnimatedValue());
+            }
+
+        });
+        colorReveal.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation)
+            {
+                fab.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Entry");
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, revealX, revealY, 0, finalRadius);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.setDuration(1000);
+        animator.start();
+        colorReveal.start();
+    }
+
+    private void ExitAnimation(final View view)
+    {
+        final FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        colorExit = ValueAnimator.ofObject(new ArgbEvaluator(), color1, color2);
+        colorExit.setDuration(1000);
+        colorExit.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator)
+            {
+                view.setBackgroundColor((int) animator.getAnimatedValue());
+            }
+
+        });
+
+        colorExit.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                manager.popBackStack();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, revealX, revealY, finalRadius, 0);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.setDuration(1000);
+        animator.start();
+        colorExit.start();
     }
 
 

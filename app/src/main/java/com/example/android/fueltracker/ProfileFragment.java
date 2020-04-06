@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
@@ -107,7 +106,7 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        rootView = inflater.inflate(R.layout.activity_profile_constraint, container, false);
+        rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         profile = rootView.findViewById(R.id.profile);
         emptyList = rootView.findViewById(R.id.noData);
 
@@ -135,7 +134,7 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
             {
                 finalRadius = (float) (Math.max(profile.getWidth(), profile.getHeight()) * 1.1);
                 color1 = getResources().getColor(R.color.black);
-                color2 = getResources().getColor(R.color.white);
+                color2 = getResources().getColor(R.color.colorPrimary);
                 RevealAnimation(v);
                 v.removeOnLayoutChangeListener(this);
             }
@@ -150,86 +149,6 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
         };
 
         getActivity().getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
-
-        /*profile.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                {
-                    profile.setVisibility(View.INVISIBLE);
-                    finalRadius = (float) (Math.max(profile.getWidth(), profile.getHeight()) * 1.1);
-                    color1 = getResources().getColor(R.color.black);
-                    color2 = getResources().getColor(R.color.white);
-
-                    colorReveal = ValueAnimator.ofObject(new ArgbEvaluator(), color2, color1);
-                    colorReveal.setDuration(1000);
-                    colorReveal.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animator)
-                        {
-                            profile.setBackgroundColor((int) animator.getAnimatedValue());
-                        }
-
-                    });
-
-                    colorExit = ValueAnimator.ofObject(new ArgbEvaluator(), color1, color2);
-                    colorExit.setDuration(1000);
-                    colorExit.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animator)
-                        {
-                            profile.setBackgroundColor((int) animator.getAnimatedValue());
-                        }
-
-                    });
-
-                    circularReveal = ViewAnimationUtils.createCircularReveal(profile, revealX, revealY, 0, finalRadius);
-                    circularReveal.setDuration(1000);
-                    circularReveal.setInterpolator(new AccelerateInterpolator());
-                    circularReveal.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation)
-                        {
-
-                        }
-                    });
-
-                    circularExit = ViewAnimationUtils.createCircularReveal(profile, revealX, revealY, finalRadius, 0);
-                    circularExit.setDuration(1000);
-                    circularExit.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation)
-                        {
-                            profile.setVisibility(View.INVISIBLE);
-                            getActivity().finish();
-                            getActivity().overridePendingTransition(0,0);
-                        }
-                    });
-
-                    ViewTreeObserver viewTreeObserver = profile.getViewTreeObserver();
-                    if (viewTreeObserver.isAlive())
-                    {
-                        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override
-                            public void onGlobalLayout()
-                            {
-                                profile.setVisibility(View.VISIBLE);
-                                circularReveal.start();
-                                colorReveal.start();
-                                profile.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            }
-                        });
-                    }
-                }
-                else
-                    profile.setVisibility(View.VISIBLE);
-            }
-
-        });*/
 
         return rootView;
     }
@@ -270,6 +189,7 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
             }
 
         });
+
         colorExit.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -341,13 +261,6 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
         }
         return notEmpty;
     }
-
-    /*@Override
-    public void onBackPressed()
-    {
-        circularExit.start();
-        colorExit.start();
-    }*/
 
     private void openDialog(int i, View view)
     {
@@ -559,6 +472,10 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
             // Apply activity transition
             int revealX = (int) (view.getX() + (view.getWidth()/2));
             int revealY = (int) (view.getY() + (view.getHeight()/2));
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            AddFragment fragment = new AddFragment(revealX, revealY);
+            transaction.replace(R.id.fragmentContainer, fragment, null).addToBackStack("").commit();
             //Intent i = new Intent(ProfileActivity.this, AddActivity.class);
             //i.putExtra(AddFragment.CIRCLEX, revealX);
             //i.putExtra(AddFragment.CIRCLEY,revealY);

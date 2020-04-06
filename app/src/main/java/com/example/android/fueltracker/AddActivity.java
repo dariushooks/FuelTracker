@@ -13,7 +13,7 @@ public class AddActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new AddFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new AddFragment(0, 0)).commit();
     }
 
     @Override

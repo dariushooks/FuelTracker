@@ -37,13 +37,23 @@ public class MainFragment extends Fragment
     private AlphaAnimation animation2;
     private AlphaAnimation animation3;
 
-    private boolean expanded;
+    private boolean expanded = true;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        rootView = getLayoutInflater().inflate(R.layout.activity_main, container, false);
+        if(expanded)
+        {
+            rootView = getLayoutInflater().inflate(R.layout.fragment_main_expanded, container, false);
+            expanded = true;
+        }
+
+        else
+        {
+            rootView = getLayoutInflater().inflate(R.layout.fragment_main_contracted, container, false);
+            expanded = false;
+        }
 
         motionLayout = rootView.findViewById(R.id.mainLayout);
         find_fuel = rootView.findViewById(R.id.findfuel);
@@ -60,7 +70,7 @@ public class MainFragment extends Fragment
             {
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                StationFragment fragment = new StationFragment();
+                StationsViewFragment fragment = new StationsViewFragment();
                 transaction.replace(R.id.fragmentContainer, fragment, null).addToBackStack("").commit();
             }
         });
@@ -81,8 +91,15 @@ public class MainFragment extends Fragment
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i)
             {
-                if(motionLayout.getCurrentState() == motionLayout.getEndState())
+                if(expanded)
+                {
+                    expanded = false;
                     profileButtonAnimation(profile);
+                }
+
+                else
+                    expanded = true;
+
             }
 
             @Override
@@ -99,18 +116,13 @@ public class MainFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        if(!expanded)
-        {
-            expanded = true;
-            motionLayout.transitionToStart();
-        }
-
         //startPulseAnimation();
     }
 
@@ -270,19 +282,12 @@ public class MainFragment extends Fragment
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            expanded = false;
             int revealX = (int) (view.getX() + (view.getWidth()/2));
             int revealY = (int) (view.getY() + (view.getHeight()/2));
             FragmentManager manager = getActivity().getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             ProfileFragment fragment = new ProfileFragment(revealX, revealY);
             transaction.replace(R.id.fragmentContainer, fragment, null).addToBackStack("").commit();
-
-            /*Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-            i.putExtra(ProfileActivity.CIRCLEX, revealX);
-            i.putExtra(ProfileActivity.CIRCLEY,revealY);
-            startActivity(i, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, view, "transition").toBundle());
-            overridePendingTransition(0, 0);*/
         }
     }
 }

@@ -1,145 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    android:id="@+id/stationContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginTop="3dp"
+    android:background="@drawable/layout_corners"
+    app:layoutDescription="@xml/favorite_clicked">
 
+    <TextView
+        android:id="@+id/regularPrice"
+        style="@style/GasPrice"
+        android:backgroundTint="@color/priceCircleRegular"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <TextView
+        android:id="@+id/typeRegular"
+        style="@style/GasType"
+        android:text="@string/regular"
+        app:layout_constraintTop_toTopOf="@id/regularPrice"
+        app:layout_constraintStart_toEndOf="@id/regularPrice"/>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/stationListItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/layout_corners"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/midPrice"
+        style="@style/GasPrice"
+        android:backgroundTint="@color/priceCircleMid"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/regularPrice"
+        app:layout_constraintEnd_toStartOf="@id/premiumPrice"/>
 
-        <!--                                                                                            -->
-        <!--                                        GAS PRICES                                          -->
-        <!--                                                                                            -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:elevation="20dp"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/typeMid"
+        style="@style/GasType"
+        android:text="@string/mid"
+        app:layout_constraintTop_toTopOf="@id/midPrice"
+        app:layout_constraintStart_toEndOf="@id/midPrice"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+    <TextView
+        android:id="@+id/premiumPrice"
+        style="@style/GasPrice"
+        android:backgroundTint="@color/priceCirclePremium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/midPrice"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-                <TextView
-                    android:id="@+id/regularPrice"
-                    style="@style/GasPrice"
-                    android:backgroundTint="@color/priceCircleRegular"/>
+    <TextView
+        android:id="@+id/typePremium"
+        style="@style/GasType"
+        android:text="@string/premium"
+        app:layout_constraintTop_toTopOf="@id/premiumPrice"
+        app:layout_constraintStart_toEndOf="@id/premiumPrice"/>
 
-                <TextView
-                    style="@style/GasType"
-                    android:text="@string/regular"/>
+    <ImageView
+        android:id="@+id/stationLogo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:elevation="20dp"
+        app:layout_constraintVertical_bias=".23"
+        app:layout_constraintTop_toBottomOf="@id/regularPrice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-            </LinearLayout>
+    <TextView
+        android:id="@+id/stationName"
+        style="@style/StationDetails"
+        android:text="text"
+        app:layout_constraintHorizontal_bias=".45"
+        app:layout_constraintBottom_toTopOf="@id/stationAddress"
+        app:layout_constraintStart_toEndOf="@id/stationLogo"
+        app:layout_constraintEnd_toStartOf="@id/stationDistance"
+        app:layout_constraintTop_toTopOf="@id/stationLogo"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+    <TextView
+        android:id="@+id/stationAddress"
+        style="@style/StationDetails"
+        android:text="text"
+        app:layout_constraintHorizontal_bias=".45"
+        app:layout_constraintBottom_toTopOf="@id/stationCity"
+        app:layout_constraintStart_toEndOf="@id/stationLogo"
+        app:layout_constraintEnd_toStartOf="@id/stationDistance"
+        app:layout_constraintTop_toBottomOf="@id/stationName"/>
 
-                <TextView
-                    android:id="@+id/midPrice"
-                    style="@style/GasPrice"
-                    android:backgroundTint="@color/priceCircleMid"/>
+    <TextView
+        android:id="@+id/stationCity"
+        style="@style/StationDetails"
+        android:text="text"
+        app:layout_constraintHorizontal_bias=".45"
+        app:layout_constraintStart_toEndOf="@id/stationLogo"
+        app:layout_constraintEnd_toStartOf="@id/stationDistance"
+        app:layout_constraintTop_toBottomOf="@id/stationAddress"/>
 
-                <TextView
-                    style="@style/GasType"
-                    android:text="@string/mid"/>
+    <TextView
+        android:id="@+id/stationDistance"
+        style="@style/StationDetails"
+        android:text="text"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/favoriteButton"/>
 
-            </LinearLayout>
+    <View
+        android:id="@+id/favoriteButtonOverlay"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/favoriteButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_not_favorite"
+        app:altSrc="@drawable/ic_is_favorite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-                <TextView
-                    android:id="@+id/premiumPrice"
-                    style="@style/GasPrice"
-                    android:backgroundTint="@color/priceCirclePremium"/>
-
-                <TextView
-                    style="@style/GasType"
-                    android:text="@string/premium"/>
-
-            </LinearLayout>
-        </LinearLayout>
-        <!--                                                                                            -->
-        <!--                                                                                            -->
-        <!--                                                                                            -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/stationLogo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
-                    android:elevation="20dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"/>
-
-                <LinearLayout
-                    android:id="@+id/stationNameAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_centerInParent="true">
-
-                    <TextView
-                        android:id="@+id/stationName"
-                        style="@style/StationDetails"
-                        android:text="text" />
-
-                    <TextView
-                        android:id="@+id/stationAddress"
-                        style="@style/StationDetails"
-                        android:text="text"/>
-
-                    <TextView
-                        android:id="@+id/stationCity"
-                        style="@style/StationDetails"
-                        android:text="text"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/stationDistance"
-                    style="@style/StationDetails"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:text="text"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-
-                <View
-                    android:id="@+id/favoriteButton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

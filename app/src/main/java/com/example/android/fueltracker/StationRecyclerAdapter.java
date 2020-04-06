@@ -52,7 +52,7 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.station_list_constraint, parent, false);
+        View view = inflater.inflate(R.layout.station_list, parent, false);
         return new StationRecyclerAdapter.StationViewHolder(view);
     }
 

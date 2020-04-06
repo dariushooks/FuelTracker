@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:id="@+id/root">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+        <LinearLayout
+            style="@style/AddLayoutStyle">
+
+            <TextView
+                style="@style/AddColumnsStyle"
+                android:text="@string/spentColumn" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/spentInput"
+                        android:inputType="numberDecimal"
+                        android:hint="@string/spentHint"
+                        style="@style/EditTextStyle"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp">
+        </View>
+
+        <LinearLayout
+            style="@style/AddLayoutStyle">
+
+            <TextView
+                style="@style/AddColumnsStyle"
+                android:text="@string/priceColumn" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/priceInput"
+                        android:inputType="numberDecimal"
+                        android:hint="@string/priceHint"
+                        style="@style/EditTextStyle"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp">
+        </View>
+
+        <LinearLayout
+            style="@style/AddLayoutStyle">
+
+            <TextView
+                style="@style/AddColumnsStyle"
+                android:text="@string/stationColumn" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/stationInput"
+                        android:inputType="text"
+                        android:hint="@string/stationHint"
+                        style="@style/EditTextStyle"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+        </View>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/saveAdd"
+                style="@style/AddButtonStyle"
+                android:text="@string/addSave"/>
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="match_parent">
+            </View>
+
+            <Button
+                android:id="@+id/cancelAdd"
+                style="@style/AddButtonStyle"
+                android:text="@string/addCancel"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addEntryFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/colorPrimary"
+        app:elevation="0dp"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_add_fab" />
+
+</RelativeLayout>
