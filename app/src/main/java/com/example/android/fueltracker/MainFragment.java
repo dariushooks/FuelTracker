@@ -116,21 +116,20 @@ public class MainFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        //startPulseAnimation();
+        startPulseAnimation();
     }
 
     @Override
     public void onStop()
     {
         super.onStop();
-        //stopPulseAnimation();
+        stopPulseAnimation();
     }
 
     private void startPulseAnimation()
@@ -142,9 +141,9 @@ public class MainFragment extends Fragment
 
     private void stopPulseAnimation()
     {
-        objAnim3.cancel();
-        objAnim2.cancel();
-        objAnim1.cancel();
+        objAnim3.end();
+        objAnim2.end();
+        objAnim1.end();
     }
 
     private void setAnimations()

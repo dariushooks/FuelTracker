@@ -18,9 +18,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class GetData extends AsyncTaskLoader
+public class GetData extends AsyncTaskLoader<ArrayList<GasStation>>
 {
+    private ArrayList<GasStation> stations = new ArrayList<>();
     private String gasUrl;
     private String data = "";
     private String id;
@@ -45,9 +47,11 @@ public class GetData extends AsyncTaskLoader
         super.onStartLoading();
     }
 
+
+
     @Nullable
     @Override
-    public Object loadInBackground()
+    public ArrayList<GasStation> loadInBackground()
     {
         try
         {
@@ -88,13 +92,13 @@ public class GetData extends AsyncTaskLoader
                 distance = JO.getString("distance");
                 if(distance.equals("1 miles"))
                     distance = distance.replace("miles","mile");
-                StationFragment.stations.add(new GasStation(id, station_name, address, city, distance, reg, mid, prem));
+                stations.add(new GasStation(id, station_name, address, city, distance, reg, mid, prem));
             }
         }
         catch (MalformedURLException e) { e.printStackTrace(); }
         catch (IOException e) { e.printStackTrace(); }
         catch (JSONException e) { e.printStackTrace(); }
         catch (InterruptedException e) { e.printStackTrace(); }
-        return null;
+        return stations;
     }
 }

@@ -20,18 +20,6 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     private Context context;
     private ArrayList<GasStation> stations;
     private StationRecyclerAdapter.ListItemClickListener listener;
-    private TextView stationName;
-    private TextView stationAddress;
-    private TextView stationCity;
-    private TextView stationDistance;
-    private TextView regPrice;
-    private TextView midPrice;
-    private TextView premPrice;
-    private ImageView stationLogo;
-    private ImageFilterView favoriteButton;
-    private View favoriteButtonOverlay;
-    private MotionLayout motionLayout;
-    private boolean firstBind;
 
     public interface ListItemClickListener
     {
@@ -72,6 +60,18 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
 
     class StationViewHolder extends RecyclerView.ViewHolder
     {
+        private TextView stationName;
+        private TextView stationAddress;
+        private TextView stationCity;
+        private TextView stationDistance;
+        private TextView regPrice;
+        private TextView midPrice;
+        private TextView premPrice;
+        private ImageView stationLogo;
+        private ImageFilterView favoriteButton;
+        private View favoriteButtonOverlay;
+        private MotionLayout motionLayout;
+        private boolean firstBind = true;
 
         public StationViewHolder(@NonNull View itemView)
         {
@@ -87,7 +87,6 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             premPrice = itemView.findViewById(R.id.premiumPrice);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
             favoriteButtonOverlay = itemView.findViewById(R.id.favoriteButtonOverlay);
-            firstBind = true;
 
             stationAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,8 +122,13 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
                 @Override
                 public void onTransitionCompleted(MotionLayout motionLayout, int i)
                 {
-                    int clickedPosition = getAdapterPosition();
-                    listener.FavoriteClick(clickedPosition);
+                    if(firstBind)
+                        firstBind = false;
+                    else
+                    {
+                        int clickedPosition = getAdapterPosition();
+                        listener.FavoriteClick(clickedPosition);
+                    }
                 }
 
                 @Override
@@ -146,9 +150,9 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             premPrice.setText(stations.get(position).getPrem());
 
             if(stations.get(position).getFavorite())
-                favoriteButton.setCrossfade(1f);
+                motionLayout.transitionToEnd();
             else
-                favoriteButton.setCrossfade(0f);
+                firstBind = false;
 
             switch (stations.get(position).getName())
             {

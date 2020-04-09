@@ -63,8 +63,6 @@ public class AddFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
         rootView = inflater.inflate(R.layout.fragment_add, container, false);
         rootLayout = rootView.findViewById(R.id.root);
 
@@ -90,95 +88,11 @@ public class AddFragment extends Fragment
             {
                 ExitAnimation(rootView);
                 //circularExit.start();
-                fab.setVisibility(View.VISIBLE);
                 //colorExit.start();
             }
         });
 
         fab = rootView.findViewById(R.id.addEntryFab);
-
-        /*rootLayout.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && intent.hasExtra(CIRCLEX) && intent.hasExtra(CIRCLEY))
-                {
-                    rootLayout.setVisibility(View.INVISIBLE);
-                    finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
-                    revealX = intent.getIntExtra(CIRCLEX, 0);
-                    revealY = intent.getIntExtra(CIRCLEY, 0);
-                    color1 = getResources().getColor(R.color.colorPrimary);
-                    color2 = getResources().getColor(R.color.white);
-
-                    colorReveal = ValueAnimator.ofObject(new ArgbEvaluator(), color1, color2);
-                    colorReveal.setDuration(2000);
-                    colorReveal.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animator)
-                        {
-                            rootLayout.setBackgroundColor((int) animator.getAnimatedValue());
-                        }
-
-                    });
-
-                    colorExit = ValueAnimator.ofObject(new ArgbEvaluator(), color2, color1);
-                    colorExit.setDuration(2000);
-                    colorExit.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animator)
-                        {
-                            rootLayout.setBackgroundColor((int) animator.getAnimatedValue());
-                        }
-
-                    });
-
-                    circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, revealX, revealY, 0, finalRadius);
-                    circularReveal.setDuration(1000);
-                    circularReveal.setInterpolator(new AccelerateInterpolator());
-                    circularReveal.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation)
-                        {
-                            fab.setVisibility(View.GONE);
-                            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Entry");
-                            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                        }
-                    });
-
-                    circularExit = ViewAnimationUtils.createCircularReveal(rootLayout, revealX, revealY, finalRadius, 0);
-                    circularExit.setDuration(1000);
-                    circularExit.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation)
-                        {
-                            rootLayout.setVisibility(View.INVISIBLE);
-                            getActivity().finish();
-                            getActivity().overridePendingTransition(0,0);
-                        }
-                    });
-
-                    ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
-                    if (viewTreeObserver.isAlive()) {
-                        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override
-                            public void onGlobalLayout()
-                            {
-                                rootLayout.setVisibility(View.VISIBLE);
-                                circularReveal.start();
-                                //colorReveal.start();
-                                rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            }
-                        });
-                    }
-                }
-                else
-                {
-                    rootLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });*/
 
         rootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -215,7 +129,7 @@ public class AddFragment extends Fragment
 
     private void RevealAnimation(final View view)
     {
-        colorReveal = ValueAnimator.ofObject(new ArgbEvaluator(), color2, color1);
+        colorReveal = ValueAnimator.ofObject(new ArgbEvaluator(), color1, color1);
         colorReveal.setDuration(1000);
         colorReveal.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -237,7 +151,6 @@ public class AddFragment extends Fragment
             public void onAnimationEnd(Animator animation)
             {
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Entry");
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
 
             @Override
@@ -262,7 +175,7 @@ public class AddFragment extends Fragment
     {
         final FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        colorExit = ValueAnimator.ofObject(new ArgbEvaluator(), color1, color2);
+        colorExit = ValueAnimator.ofObject(new ArgbEvaluator(), color1, color1);
         colorExit.setDuration(1000);
         colorExit.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -276,13 +189,15 @@ public class AddFragment extends Fragment
 
         colorExit.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-
+            public void onAnimationStart(Animator animation)
+            {
+                fab.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation)
             {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profile");
                 manager.popBackStack();
             }
 

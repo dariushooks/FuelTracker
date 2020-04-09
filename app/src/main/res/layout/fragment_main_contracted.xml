@@ -65,7 +65,7 @@
     <Button
         android:id="@+id/userProfile"
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/button_corners"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="60dp"

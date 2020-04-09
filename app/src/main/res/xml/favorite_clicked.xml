@@ -4,8 +4,8 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetStart="@id/start"
-        motion:constraintSetEnd="@id/end"
+        motion:constraintSetStart="@id/favoriteStart"
+        motion:constraintSetEnd="@id/favoriteEnd"
         motion:duration="500"
         motion:motionInterpolator="linear">
 
@@ -19,16 +19,11 @@
                 motion:framePosition="50"
                 android:scaleX="2"
                 android:scaleY="2"/>
-
-            <!--<KeyTrigger
-                motion:motionTarget="@+id/favoriteButtonOverlay"
-                motion:framePosition="50"
-                motion:onCross="callOnClick"/>-->
         </KeyFrameSet>
     </Transition>
 
     <ConstraintSet
-        android:id="@+id/start">
+        android:id="@+id/favoriteStart">
         <Constraint
             android:id="@+id/favoriteButton"
             android:layout_width="30dp"
@@ -44,7 +39,7 @@
     </ConstraintSet>
 
     <ConstraintSet
-        android:id="@+id/end">
+        android:id="@+id/favoriteEnd">
         <Constraint
             android:id="@+id/favoriteButton"
             android:layout_width="30dp"

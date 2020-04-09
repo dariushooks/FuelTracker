@@ -31,6 +31,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -89,11 +90,13 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
     private FloatingActionButton fabMain;
 
     private String rowID;
+    private boolean fromMain;
 
     public ProfileFragment(int revealX, int revealY)
     {
         this.revealX = revealX;
         this.revealY = revealY;
+        fromMain = true;
     }
 
     @Override
@@ -115,6 +118,7 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
             @Override
             public void onClick(View view)
             {
+                fromMain = false;
                 insertData(view);
             }
         });
@@ -132,10 +136,14 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom)
             {
-                finalRadius = (float) (Math.max(profile.getWidth(), profile.getHeight()) * 1.1);
-                color1 = getResources().getColor(R.color.black);
-                color2 = getResources().getColor(R.color.colorPrimary);
-                RevealAnimation(v);
+                if(fromMain)
+                {
+                    finalRadius = (float) (Math.max(profile.getWidth(), profile.getHeight()) * 1.1);
+                    color1 = getResources().getColor(R.color.black);
+                    color2 = getResources().getColor(R.color.colorPrimary);
+                    RevealAnimation(v);
+                }
+
                 v.removeOnLayoutChangeListener(this);
             }
         });
@@ -165,6 +173,28 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
                 view.setBackgroundColor((int) animator.getAnimatedValue());
             }
 
+        });
+        colorReveal.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profile");
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
         });
 
         Animator animator = ViewAnimationUtils.createCircularReveal(view, revealX, revealY, 0, finalRadius);
@@ -199,6 +229,7 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
             @Override
             public void onAnimationEnd(Animator animation)
             {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Fuel Tracker");
                 manager.popBackStack();
             }
 

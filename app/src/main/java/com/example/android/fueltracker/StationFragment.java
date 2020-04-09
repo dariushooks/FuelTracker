@@ -1,7 +1,6 @@
 package com.example.android.fueltracker;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
@@ -42,10 +41,10 @@ import static com.example.android.fueltracker.App.isConnected;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StationFragment extends Fragment implements LoaderManager.LoaderCallbacks, StationRecyclerAdapter.ListItemClickListener, SwipeRefreshLayout.OnRefreshListener
+public class StationFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<GasStation>>, StationRecyclerAdapter.ListItemClickListener, SwipeRefreshLayout.OnRefreshListener
 {
     private final String TAG = StationFragment.class.getSimpleName();
-    public static ArrayList<GasStation> stations = new ArrayList<>();
+    private ArrayList<GasStation> stations = new ArrayList<>();
     private ArrayList<Favorites> favorites = new ArrayList<>();
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
@@ -165,9 +164,13 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
                             + currentLocation.getLatitude()
                             + "/" + currentLocation.getLongitude()
                             + "/5/reg/distance/e5ieinrc85.json?callback=?";
-                    GetData getData = (GetData) LoaderManager.getInstance(StationFragment.this).getLoader(0);
-                    getData.setGasUrl(url);
-                    getData.forceLoad();
+                    Loader<ArrayList<GasStation>> loader = LoaderManager.getInstance(StationFragment.this).getLoader(0);
+                    GetData getData = (GetData) loader;
+                    if(getData != null)
+                    {
+                        getData.setGasUrl(url);
+                        getData.forceLoad();
+                    }
                 }
 
                 else
@@ -196,7 +199,8 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
                             + currentLocation.getLatitude()
                             + "/" + currentLocation.getLongitude()
                             + "/5/reg/distance/e5ieinrc85.json?callback=?";
-                    GetData getData = (GetData) LoaderManager.getInstance(StationFragment.this).getLoader(0);
+                    Loader<ArrayList<GasStation>> loader = LoaderManager.getInstance(StationFragment.this).getLoader(0);
+                    GetData getData = (GetData) loader;
                     if(getData != null)
                     {
                         getData.setGasUrl(url);
@@ -211,15 +215,17 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
 
     @NonNull
     @Override
-    public Loader onCreateLoader(int id, @Nullable Bundle args)
+    public Loader<ArrayList<GasStation>> onCreateLoader(int id, @Nullable Bundle args)
     {
         getLocation();
         return new GetData(Objects.requireNonNull(getActivity()));
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader loader, Object data)
+    public void onLoadFinished(@NonNull Loader<ArrayList<GasStation>> loader, ArrayList<GasStation> data)
     {
+        stations.clear();
+        stations.addAll(data);
         progress.setVisibility(View.GONE);
         progressText.setVisibility(View.GONE);
         if (stations.isEmpty())
@@ -247,7 +253,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader loader) {}
+    public void onLoaderReset(@NonNull Loader<ArrayList<GasStation>> loader) { }
 
     private void readFromDatabase()
     {

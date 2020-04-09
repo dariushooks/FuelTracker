@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
-    android:id="@+id/root">
+    android:background="@color/colorPrimary">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
         <LinearLayout
             style="@style/AddLayoutStyle">
 
@@ -145,10 +147,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_fab"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="@color/colorPrimary"
+        app:fabCustomSize="50dp"
         app:elevation="0dp"
         app:borderWidth="0dp"
-        android:src="@drawable/ic_add_fab" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

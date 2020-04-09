@@ -2,23 +2,12 @@ package com.example.android.fueltracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.Toast;
 
 import static com.example.android.fueltracker.App.networkBroadcastReceiver;
@@ -26,24 +15,8 @@ import static com.example.android.fueltracker.App.networkBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity
 {
-    private Button find_fuel;
-    private View pulsing1;
-    private View pulsing2;
-    private View pulsing3;
-    private MotionLayout motionLayout;
-    private ObjectAnimator objAnim1;
-    private ObjectAnimator objAnim2;
-    private ObjectAnimator objAnim3;
-    private ValueAnimator profileButtonContract;
-    private ValueAnimator profileButtonExpand;
-    private int start;
-    private AlphaAnimation animation1;
-    private AlphaAnimation animation2;
-    private AlphaAnimation animation3;
-    private Button profile;
     private final int PERMISSION_REQUEST_CODE = 1;
     private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-    private boolean expanded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

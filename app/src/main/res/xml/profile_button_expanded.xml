@@ -18,7 +18,7 @@
         <Constraint
             android:id="@+id/userProfile"
             android:layout_width="160dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="60dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         <Constraint
             android:id="@+id/userProfile"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="60dp"
             motion:layout_constraintBottom_toBottomOf="parent"
