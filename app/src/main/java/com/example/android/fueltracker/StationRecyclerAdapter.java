@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecyclerAdapter.StationViewHolder>
 {
-
-    private Context context;
+    private static int NOT_FAVORITE = 0;
+    private static int IS_FAVORITE = 1;
     private ArrayList<GasStation> stations;
     private StationRecyclerAdapter.ListItemClickListener listener;
 
@@ -38,9 +38,13 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     @Override
     public StationRecyclerAdapter.StationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        context = parent.getContext();
+        Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.station_list, parent, false);
+        View view;
+        if(viewType == NOT_FAVORITE)
+            view = inflater.inflate(R.layout.station_list_not_favorite, parent, false);
+        else
+            view = inflater.inflate(R.layout.station_list_is_favorite, parent, false);
         return new StationRecyclerAdapter.StationViewHolder(view);
     }
 
@@ -48,11 +52,15 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
     public long getItemId(int position) { return Integer.parseInt(stations.get(position).getId()); }
 
     @Override
-    public int getItemViewType(int position) { return Integer.parseInt(stations.get(position).getId()); }
+    public int getItemViewType(int position)
+    {
+        if(stations.get(position).getFavorite())
+            return IS_FAVORITE;
+        return NOT_FAVORITE;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull StationRecyclerAdapter.StationViewHolder holder, int position) { holder.bind(position); }
-
 
 
     @Override
@@ -71,7 +79,6 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
         private ImageFilterView favoriteButton;
         private View favoriteButtonOverlay;
         private MotionLayout motionLayout;
-        private boolean firstBind = true;
 
         public StationViewHolder(@NonNull View itemView)
         {
@@ -122,13 +129,8 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
                 @Override
                 public void onTransitionCompleted(MotionLayout motionLayout, int i)
                 {
-                    if(firstBind)
-                        firstBind = false;
-                    else
-                    {
-                        int clickedPosition = getAdapterPosition();
-                        listener.FavoriteClick(clickedPosition);
-                    }
+                    int clickedPosition = getAdapterPosition();
+                    listener.FavoriteClick(clickedPosition);
                 }
 
                 @Override
@@ -148,11 +150,6 @@ public class StationRecyclerAdapter extends RecyclerView.Adapter<StationRecycler
             regPrice.setText(stations.get(position).getReg());
             midPrice.setText(stations.get(position).getMid());
             premPrice.setText(stations.get(position).getPrem());
-
-            if(stations.get(position).getFavorite())
-                motionLayout.transitionToEnd();
-            else
-                firstBind = false;
 
             switch (stations.get(position).getName())
             {

@@ -246,7 +246,7 @@ public class StationFragment extends Fragment implements LoaderManager.LoaderCal
                         if(stations.get(i).getAddress().equals(favorites.get(j).getAddress()))
                             stations.get(i).setFavorite(true);
 
-            stationRecyclerAdapter.notifyDataSetChanged();
+           stationRecyclerAdapter.notifyDataSetChanged();
         }
 
         refreshLayout.setRefreshing(false);

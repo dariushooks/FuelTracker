@@ -19,11 +19,6 @@ public class FavoritesRecyclerAdapter extends RecyclerView.Adapter<FavoritesRecy
     private Context context;
     private ArrayList<Favorites> favorites;
     private FavoritesRecyclerAdapter.ListItemClickListener listener;
-    private TextView favoriteName;
-    private TextView favoriteAddress;
-    private TextView favoriteCity;
-    private ImageView favoriteLogo;
-    private LinearLayout favoriteNameAddress;
 
     public interface ListItemClickListener
     {
@@ -62,6 +57,12 @@ public class FavoritesRecyclerAdapter extends RecyclerView.Adapter<FavoritesRecy
 
     class FavoritesViewHolder extends RecyclerView.ViewHolder
     {
+
+        private TextView favoriteName;
+        private TextView favoriteAddress;
+        private TextView favoriteCity;
+        private ImageView favoriteLogo;
+        private LinearLayout favoriteNameAddress;
 
         public FavoritesViewHolder(@NonNull View itemView)
         {

@@ -17,12 +17,6 @@ public class GasTrackerRecyclerAdapter extends RecyclerView.Adapter<GasTrackerRe
     private Context context;
     private ArrayList<GasTracker> tracker;
     private GasTrackerRecyclerAdapter.ListItemClickListener listener;
-    private LinearLayout container;
-    private TextView date;
-    private TextView spent;
-    private TextView gallons;
-    private TextView price;
-    private TextView station;
 
     public interface ListItemClickListener
     {
@@ -55,6 +49,13 @@ public class GasTrackerRecyclerAdapter extends RecyclerView.Adapter<GasTrackerRe
 
     class GasTrackerViewHolder extends RecyclerView.ViewHolder
     {
+
+        private LinearLayout container;
+        private TextView date;
+        private TextView spent;
+        private TextView gallons;
+        private TextView price;
+        private TextView station;
 
         public GasTrackerViewHolder(@NonNull View itemView)
         {
