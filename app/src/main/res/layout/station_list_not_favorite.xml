@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:layout_marginTop="3dp"
+    android:layout_marginBottom="5dp"
     android:background="@drawable/layout_corners"
     app:layoutDescription="@xml/not_favorite">
 
@@ -53,17 +53,27 @@
         app:layout_constraintTop_toTopOf="@id/premiumPrice"
         app:layout_constraintStart_toEndOf="@id/premiumPrice"/>
 
-    <ImageView
-        android:id="@+id/stationLogo"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/stationLogoHolder"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
-        android:elevation="20dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="30dp"
+        app:contentPadding="7dp"
         app:layout_constraintVertical_bias=".23"
         app:layout_constraintTop_toBottomOf="@id/regularPrice"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/stationLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/stationName"
@@ -71,9 +81,9 @@
         android:text="text"
         app:layout_constraintHorizontal_bias=".45"
         app:layout_constraintBottom_toTopOf="@id/stationAddress"
-        app:layout_constraintStart_toEndOf="@id/stationLogo"
+        app:layout_constraintStart_toEndOf="@id/stationLogoHolder"
         app:layout_constraintEnd_toStartOf="@id/stationDistance"
-        app:layout_constraintTop_toTopOf="@id/stationLogo"/>
+        app:layout_constraintTop_toTopOf="@id/stationLogoHolder"/>
 
     <TextView
         android:id="@+id/stationAddress"
@@ -81,7 +91,7 @@
         android:text="text"
         app:layout_constraintHorizontal_bias=".45"
         app:layout_constraintBottom_toTopOf="@id/stationCity"
-        app:layout_constraintStart_toEndOf="@id/stationLogo"
+        app:layout_constraintStart_toEndOf="@id/stationLogoHolder"
         app:layout_constraintEnd_toStartOf="@id/stationDistance"
         app:layout_constraintTop_toBottomOf="@id/stationName"/>
 
@@ -90,7 +100,7 @@
         style="@style/StationDetails"
         android:text="text"
         app:layout_constraintHorizontal_bias=".45"
-        app:layout_constraintStart_toEndOf="@id/stationLogo"
+        app:layout_constraintStart_toEndOf="@id/stationLogoHolder"
         app:layout_constraintEnd_toStartOf="@id/stationDistance"
         app:layout_constraintTop_toBottomOf="@id/stationAddress"/>
 

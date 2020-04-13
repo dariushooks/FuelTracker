@@ -4,7 +4,10 @@
     android:id="@+id/listRow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_marginBottom="5dp"
+    android:orientation="horizontal"
+    android:background="@drawable/layout_corners"
+    android:backgroundTint="@color/gray">
 
     <LinearLayout
         style="@style/HistoryListColumn"

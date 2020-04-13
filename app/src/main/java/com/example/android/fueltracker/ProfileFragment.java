@@ -124,9 +124,9 @@ public class ProfileFragment extends Fragment implements GasTrackerRecyclerAdapt
         });
 
         recyclerView = rootView.findViewById(R.id.historyListRecycler);
-        DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        divider.setDrawable(getContext().getDrawable(R.drawable.history_list_divider));
-        recyclerView.addItemDecoration(divider);
+        //DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        //divider.setDrawable(getContext().getDrawable(R.drawable.history_list_divider));
+        //recyclerView.addItemDecoration(divider);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         trackerRecyclerAdapter = new GasTrackerRecyclerAdapter(this, tracker);
         recyclerView.setLayoutManager(layoutManager);
