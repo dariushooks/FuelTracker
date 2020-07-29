@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="gray">#424242</color>
+    <color name="lightGray">#6d6d6d</color>
+    <color name="GasPriceText">#FFF</color>
+    <color name="ProgressText">#FFF</color>
+    <color name="GasTypeText">#000</color>
+    <color name="priceCirclePremium">#990011</color>
+    <color name="priceCircleMid">#CC5522</color>
+    <color name="priceCircleRegular">#CCAA22</color>
+    <color name="logoCircle">#FFF</color>
+</resources>

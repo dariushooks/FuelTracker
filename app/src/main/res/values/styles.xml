@@ -1,0 +1,250 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!--    MAIN ACTIVITY    -->
+    <!--    MAIN ACTIVITY    -->
+    <!--    MAIN ACTIVITY    -->
+    <style name="PulsingCircleStyle">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:background">@drawable/pulsing_circle</item>
+    </style>
+
+
+
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+
+
+
+
+    <!--    STATION ACTIVITY    -->
+    <!--    STATION ACTIVITY    -->
+    <!--    STATION ACTIVITY    -->
+    <style name="GasPrice">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:textColor">@color/GasPriceText</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">0.00</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/price_circle</item>
+    </style>
+
+    <style name="GasType">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginStart">14dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/GasTypeText</item>
+    </style>
+
+    <style name="StationDetails">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/GasTypeText</item>
+    </style>
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+
+
+
+    <!--    PROFILE ACTIVITY    -->
+    <!--    PROFILE ACTIVITY    -->
+    <!--    PROFILE ACTIVITY    -->
+    <style name="ListColumn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ColumnText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HistoryListText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HistoryListColumn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="EditTextProfile">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:colorControlActivated">#FFF</item>
+        <item name="android:colorControlHighlight">@color/colorPrimary</item>
+        <item name="hintTextColor">#999</item>
+    </style>
+
+    <style name="Theme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+
+
+    <!--    ADD ACTIVITY    -->
+    <!--    ADD ACTIVITY    -->
+    <!--    ADD ACTIVITY    -->
+    <style name="EditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:colorControlActivated">#FFF</item>
+        <item name="android:colorControlHighlight">@color/white</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="hintTextColor">#999</item>
+    </style>
+
+    <style name="AddButtonStyle">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:background">@drawable/button_corners</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:elevation">20dp</item>
+    </style>
+
+    <style name="AddColumnsStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AddLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+
+
+    <!--    FAVORITES ACTIVITY    -->
+    <!--    FAVORITES ACTIVITY    -->
+    <!--    FAVORITES ACTIVITY    -->
+    <style name="FavoriteTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+
+
+    <!--    PROFILE DIALOG    -->
+    <!--    PROFILE DIALOG    -->
+    <!--    PROFILE DIALOG    -->
+    <style name="DialogButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+
+
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+
+
+
+
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <style name="Dialog">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/expand</item>
+        <item name="android:windowExitAnimation">@anim/contract</item>
+    </style>
+
+    <style name="BaseAppTheme" parent="android:Theme.Material">
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@anim/expand</item>
+        <item name="android:windowExitTransition">@anim/contract</item>
+    </style>
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+    <!--                                                            -->
+
+</resources>
